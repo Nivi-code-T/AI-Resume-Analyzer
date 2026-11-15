@@ -7,10 +7,7 @@ from pypdf import PdfReader
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-
-# ==========================================
-# 1. PAGE CONFIGURATION
-# ==========================================
+#PAGE CONFIGURATION
 
 st.set_page_config(
     page_title="AI Resume Analyzer",
@@ -19,9 +16,8 @@ st.set_page_config(
 )
 
 
-# ==========================================
-# 2. APPLICATION TITLE
-# ==========================================
+
+#APPLICATION TITLE
 
 st.title("📄 AI Resume Analyzer")
 
@@ -30,11 +26,7 @@ st.write(
     "with a job description."
 )
 
-
-# ==========================================
-# 3. EXTRACT TEXT FROM PDF
-# ==========================================
-
+# EXTRACT TEXT FROM PDF
 def extract_resume_text(pdf_file):
 
     reader = PdfReader(pdf_file)
@@ -51,9 +43,7 @@ def extract_resume_text(pdf_file):
     return text
 
 
-# ==========================================
-# 4. SKILLS DATABASE
-# ==========================================
+# SKILLS DATABASE
 
 SKILLS_LIST = [
     # Programming Languages
@@ -96,10 +86,7 @@ SKILLS_LIST = [
 ]
 
 
-# ==========================================
-# 5. EXTRACT SKILLS
-# ==========================================
-
+# EXTRACT SKILLS
 def extract_skills(text):
 
     found_skills = []
@@ -119,9 +106,7 @@ def extract_skills(text):
     return found_skills
 
 
-# ==========================================
-# 6. RESUME UPLOAD
-# ==========================================
+# RESUME UPLOAD
 
 uploaded_file = st.file_uploader(
     "Upload your Resume (PDF)",
@@ -129,9 +114,7 @@ uploaded_file = st.file_uploader(
 )
 
 
-# ==========================================
-# 7. JOB DESCRIPTION INPUT
-# ==========================================
+# JOB DESCRIPTION INPUT
 
 job_description = st.text_area(
     "Paste the Job Description here",
@@ -139,9 +122,7 @@ job_description = st.text_area(
 )
 
 
-# ==========================================
-# 8. ANALYZE RESUME BUTTON
-# ==========================================
+# ANALYZE RESUME BUTTON
 
 if st.button("Analyze Resume", type="primary"):
 
@@ -168,9 +149,7 @@ if st.button("Analyze Resume", type="primary"):
 
         else:
 
-            # ==================================
-            # 9. TF-IDF SIMILARITY
-            # ==================================
+            # TF-IDF SIMILARITY
 
             vectorizer = TfidfVectorizer(
                 stop_words="english"
@@ -188,9 +167,7 @@ if st.button("Analyze Resume", type="primary"):
             score = round(similarity * 100, 2)
 
 
-            # ==================================
-            # 10. EXTRACT SKILLS
-            # ==================================
+            # EXTRACT SKILLS
 
             resume_skills = extract_skills(
                 resume_text
@@ -201,9 +178,7 @@ if st.button("Analyze Resume", type="primary"):
             )
 
 
-            # ==================================
-            # 11. MATCHING SKILLS
-            # ==================================
+            # MATCHING SKILLS
 
             matching_skills = [
                 skill for skill in job_skills
@@ -211,9 +186,7 @@ if st.button("Analyze Resume", type="primary"):
             ]
 
 
-            # ==================================
-            # 12. MISSING SKILLS
-            # ==================================
+            # MISSING SKILLS
 
             missing_skills = [
                 skill for skill in job_skills
@@ -221,9 +194,7 @@ if st.button("Analyze Resume", type="primary"):
             ]
 
 
-            # ==================================
-            # 13. ADDITIONAL SKILLS
-            # ==================================
+            # ADDITIONAL SKILLS
 
             additional_skills = [
                 skill for skill in resume_skills
@@ -231,9 +202,7 @@ if st.button("Analyze Resume", type="primary"):
             ]
 
 
-            # ==================================
-            # 14. SKILL MATCH SCORE
-            # ==================================
+            # SKILL MATCH SCORE
 
             if job_skills:
 
@@ -248,16 +217,12 @@ if st.button("Analyze Resume", type="primary"):
                 skill_score = 0
 
 
-            # ==================================
-            # 15. DISPLAY SUCCESS
-            # ==================================
+            # DISPLAY SUCCESS
 
             st.success("Resume analysis completed!")
 
 
-            # ==================================
-            # 16. DISPLAY SCORES
-            # ==================================
+            # DISPLAY SCORES
 
             st.header("📊 Resume Analysis Results")
 
@@ -281,9 +246,7 @@ if st.button("Analyze Resume", type="primary"):
             st.progress(skill_score / 100)
 
 
-            # ==================================
-            # 17. DISPLAY RESUME SKILLS
-            # ==================================
+            # DISPLAY RESUME SKILLS
 
             st.header("📋 Skills Found in Resume")
 
@@ -301,10 +264,7 @@ if st.button("Analyze Resume", type="primary"):
                     "No recognized skills found in resume."
                 )
 
-
-            # ==================================
-            # 18. DISPLAY JOB SKILLS
-            # ==================================
+            # DISPLAY JOB SKILLS
 
             st.header("💼 Skills Required by Job")
 
@@ -321,9 +281,7 @@ if st.button("Analyze Resume", type="primary"):
                 )
 
 
-            # ==================================
-            # 19. MATCHING SKILLS
-            # ==================================
+            # MATCHING SKILLS
 
             st.header("✅ Matching Skills")
 
@@ -342,9 +300,7 @@ if st.button("Analyze Resume", type="primary"):
                 st.warning("No matching skills found.")
 
 
-            # ==================================
-            # 20. MISSING SKILLS
-            # ==================================
+            # MISSING SKILLS
 
             st.header("❌ Missing Skills")
 
@@ -365,9 +321,7 @@ if st.button("Analyze Resume", type="primary"):
                 )
 
 
-            # ==================================
-            # 21. ADDITIONAL SKILLS
-            # ==================================
+            # ADDITIONAL SKILLS
 
             st.header("⭐ Additional Resume Skills")
 
@@ -388,9 +342,7 @@ if st.button("Analyze Resume", type="primary"):
                 )
 
 
-            # ==================================
-            # 22. SKILLS COMPARISON TABLE
-            # ==================================
+            # SKILLS COMPARISON TABLE
 
             st.header("📑 Skills Comparison")
 
@@ -420,9 +372,7 @@ if st.button("Analyze Resume", type="primary"):
                 )
 
 
-            # ==================================
-            # 23. DISPLAY EXTRACTED RESUME TEXT
-            # ==================================
+            # DISPLAY EXTRACTED RESUME TEXT
 
             with st.expander(
                 "View Extracted Resume Text"
@@ -433,11 +383,8 @@ if st.button("Analyze Resume", type="primary"):
                     resume_text,
                     height=250
                 )
-
-
-            # ==================================
-            # 24. INFORMATION MESSAGE
-            # ==================================
+                
+            # INFORMATION MESSAGE
 
             st.info(
                 "This application uses TF-IDF, "
